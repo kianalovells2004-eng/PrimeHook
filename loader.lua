@@ -1,62 +1,55 @@
--- ═══════════════════════════════════════════
---  PrimeHook Loader v1.0
--- ═══════════════════════════════════════════
+-- =============================================
+--  PrimeHook Loader
+-- =============================================
 
-print("🚀 PrimeHook Loader v1.0")
-print("🔗 Fetching modules from GitHub...")
+print("[PrimeHook] Loader started.")
 
--- ═══ CONFIGURATION ═══
--- 🔴 CHANGE THIS to your actual GitHub repo raw URL
 local BASE_URL = "https://raw.githubusercontent.com/kianalovells2004-eng/PrimeHook/main/"
--- ═════════════════════
 
 local modules = {
-    { name = "UI",         file = "ui.lua" },
-    { name = "GunMod",     file = "gunmod.lua" },
+    { name = "UI",       file = "ui.lua" },
+    { name = "GunChams", file = "gunchams.lua" },
+    { name = "GunMod",   file = "gunmod.lua" },
 }
 
 local function loadModule(name, url)
-    print("📥 Loading " .. name .. " from " .. url .. "...")
+    print("[PrimeHook] Loading " .. name .. " from " .. url)
 
-    local success, result = pcall(function()
-        return game:HttpGet(url)
-    end)
+    local success, result = pcall(game.HttpGet, game, url .. "?t=" .. tick())
 
     if not success then
-        warn("❌ Failed to fetch " .. name .. ": " .. tostring(result))
+        warn("[PrimeHook] Failed to fetch " .. name .. ": " .. tostring(result))
         return false
     end
 
-    local func, compileErr = loadstring(result)
+    local func, err = loadstring(result)
     if not func then
-        warn("❌ Failed to compile " .. name .. ": " .. tostring(compileErr))
+        warn("[PrimeHook] Failed to compile " .. name .. ": " .. tostring(err))
         return false
     end
 
-    local execSuccess, execErr = pcall(func)
-    if not execSuccess then
-        warn("❌ Failed to execute " .. name .. ": " .. tostring(execErr))
+    local ok, execErr = pcall(func)
+    if not ok then
+        warn("[PrimeHook] Failed to execute " .. name .. ": " .. tostring(execErr))
         return false
     end
 
-    print("✅ " .. name .. " loaded successfully!")
+    print("[PrimeHook] " .. name .. " loaded successfully.")
     return true
 end
 
--- Load modules in order (UI first, then GunMod)
 local allLoaded = true
 for _, mod in ipairs(modules) do
     local url = BASE_URL .. mod.file
     local ok = loadModule(mod.name, url)
     if not ok then
         allLoaded = false
-        warn("⚠️ Stopping loader due to failure in " .. mod.name)
-        break
+        warn("[PrimeHook] " .. mod.name .. " failed to load – continuing anyway.")
     end
 end
 
 if allLoaded then
-    print("🎯 PrimeHook fully loaded! Enjoy.")
+    print("[PrimeHook] All modules loaded successfully.")
 else
-    warn("🛑 PrimeHook failed to load completely. Check the errors above.")
+    print("[PrimeHook] Some modules failed – but others may still work.")
 end
