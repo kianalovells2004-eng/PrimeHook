@@ -8,6 +8,7 @@ _G.GunModToggles = {
     FastFire = false,
     InfRange = false,
     NoSpread = false,
+    Tracer = false,  -- NEW
 }
 
 -- Create the window
@@ -54,6 +55,15 @@ Section:AddToggle({
     end
 })
 
+-- NEW: Bullet Tracer toggle
+Section:AddToggle({
+    Name = "Bullet Tracer",
+    Side = "Left",
+    Callback = function()
+        _G.GunModToggles.Tracer = not _G.GunModToggles.Tracer
+        print("Tracer:", _G.GunModToggles.Tracer)
+    end
+})
+
 -- Load the gun modifier logic (after UI is ready)
--- Make sure the path matches your repo's raw URL
 loadstring(game:HttpGet("https://raw.githubusercontent.com/yourusername/yourrepo/main/gunmod.lua"))()
