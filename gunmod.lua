@@ -1,6 +1,6 @@
 -- ============================================
 --  gunmod.lua – PrimeHook
---  Only attribute modifications (FastFire, Inf Range, NoSpread)
+--  Weapon attribute modifications only
 -- ============================================
 
 local oldNamecall
@@ -35,4 +35,4 @@ oldNamecall = hookmetamethod(game, "__namecall", newcclosure(function(self, ...)
     return oldNamecall(self, ...)
 end))
 
-print("✅ GunMod loaded – FastFire, Inf Range, NoSpread enabled.")
+print("[PrimeHook] GunMod loaded successfully.")
