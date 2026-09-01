@@ -6,7 +6,6 @@ _G.GunModToggles = {
     FastFire = false,
     InfRange = false,
     NoSpread = false,
-    -- Tracer and RgbTracer removed
 }
 
 local Window = Library:CreateWindow({ Name = "PrimeHook" })
