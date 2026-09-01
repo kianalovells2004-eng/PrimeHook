@@ -3,29 +3,18 @@ local Library = loadstring(game:HttpGet(
     "https://raw.githubusercontent.com/Stratxgy/PepsiUI/refs/heads/main/pepsi.lua"
 ))()
 
--- Shared state (accessible from gunmod.lua)
 _G.GunModToggles = {
     FastFire = false,
     InfRange = false,
     NoSpread = false,
-    Tracer = false,  -- NEW
+    Tracer = false,       -- keep this if you still want your own beam
+    RgbTracer = false,    -- NEW: enables RGB game tracers
 }
 
--- Create the window
-local Window = Library:CreateWindow({
-    Name = "PrimeHook",
-})
+local Window = Library:CreateWindow({ Name = "PrimeHook" })
+local GunMods = Window:CreateTab({ Name = "GunMods" })
+local Section = GunMods:CreateSection({ Name = "Gun Mods", Side = "Left" })
 
-local GunMods = Window:CreateTab({
-    Name = "GunMods"
-})
-
-local Section = GunMods:CreateSection({
-    Name = "Gun Mods",
-    Side = "Left"
-})
-
--- FastFire toggle
 Section:AddToggle({
     Name = "FastFire",
     Side = "Left",
@@ -35,7 +24,6 @@ Section:AddToggle({
     end
 })
 
--- Inf Range toggle
 Section:AddToggle({
     Name = "Inf Range",
     Side = "Left",
@@ -45,7 +33,6 @@ Section:AddToggle({
     end
 })
 
--- NoSpread toggle
 Section:AddToggle({
     Name = "NoSpread",
     Side = "Left",
@@ -55,9 +42,8 @@ Section:AddToggle({
     end
 })
 
--- NEW: Bullet Tracer toggle
 Section:AddToggle({
-    Name = "Bullet Tracer",
+    Name = "Bullet Tracer",   -- your custom beam (keep if you want)
     Side = "Left",
     Callback = function()
         _G.GunModToggles.Tracer = not _G.GunModToggles.Tracer
@@ -65,5 +51,12 @@ Section:AddToggle({
     end
 })
 
--- Load the gun modifier logic (after UI is ready)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/yourusername/yourrepo/main/gunmod.lua"))()
+-- NEW: RGB Tracer toggle
+Section:AddToggle({
+    Name = "RGB Tracers",
+    Side = "Left",
+    Callback = function()
+        _G.GunModToggles.RgbTracer = not _G.GunModToggles.RgbTracer
+        print("RGB Tracers:", _G.GunModToggles.RgbTracer)
+    end
+})
