@@ -1,7 +1,16 @@
+-- Load PepsiUI
 local Library = loadstring(game:HttpGet(
     "https://raw.githubusercontent.com/Stratxgy/PepsiUI/refs/heads/main/pepsi.lua"
 ))()
 
+-- Shared state (accessible from gunmod.lua)
+_G.GunModToggles = {
+    FastFire = false,
+    InfRange = false,
+    NoSpread = false,
+}
+
+-- Create the window
 local Window = Library:CreateWindow({
     Name = "PrimeHook",
 })
@@ -15,52 +24,36 @@ local Section = GunMods:CreateSection({
     Side = "Left"
 })
 
-Section:AddSlider({
-    Name = "Range",
-    Value = 0,
-    Min = 0,
-    Max = 999999,
-    Callback = function(value)
-        print("Range:", value)
+-- FastFire toggle
+Section:AddToggle({
+    Name = "FastFire",
+    Side = "Left",
+    Callback = function()
+        _G.GunModToggles.FastFire = not _G.GunModToggles.FastFire
+        print("FastFire:", _G.GunModToggles.FastFire)
     end
 })
 
-Section:AddSlider({
-    Name = "Spread",
-    Value = 0,
-    Min = 0,
-    Max = 999999,
-    Callback = function(value)
-        print("Spread:", value)
+-- Inf Range toggle
+Section:AddToggle({
+    Name = "Inf Range",
+    Side = "Left",
+    Callback = function()
+        _G.GunModToggles.InfRange = not _G.GunModToggles.InfRange
+        print("Inf Range:", _G.GunModToggles.InfRange)
     end
 })
 
-Section:AddSlider({
-    Name = "Accurate Range",
-    Value = 0,
-    Min = 0,
-    Max = 999999,
-    Callback = function(value)
-        print("AccurateRange:", value)
+-- NoSpread toggle
+Section:AddToggle({
+    Name = "NoSpread",
+    Side = "Left",
+    Callback = function()
+        _G.GunModToggles.NoSpread = not _G.GunModToggles.NoSpread
+        print("NoSpread:", _G.GunModToggles.NoSpread)
     end
 })
 
-Section:AddSlider({
-    Name = "Spread Radius",
-    Value = 0,
-    Min = 0,
-    Max = 999999,
-    Callback = function(value)
-        print("SpreadRadius:", value)
-    end
-})
-
-Section:AddSlider({
-    Name = "Fire Rate",
-    Value = 0,
-    Min = 0,
-    Max = 999999,
-    Callback = function(value)
-        print("FireRate:", value)
-    end
-})
+-- Load the gun modifier logic (after UI is ready)
+-- Make sure the path matches your repo's raw URL
+loadstring(game:HttpGet("https://raw.githubusercontent.com/yourusername/yourrepo/main/gunmod.lua"))()
